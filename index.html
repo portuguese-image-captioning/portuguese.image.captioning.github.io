@@ -1,0 +1,577 @@
+<script src="http://www.google.com/jsapi" type="text/javascript"></script>
+<script type="text/javascript">google.load("jquery", "1.3.2");</script>
+
+<style type="text/css">
+	body {
+		font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+		font-weight:300;
+		font-size:17px;
+		margin-left: auto;
+		margin-right: auto;
+		width: 1100px;
+	}
+
+	h1 {
+		font-weight:300;
+        font-size: 30px;
+	}
+
+	.disclaimerbox {
+		background-color: #eee;
+		border: 1px solid #eeeeee;
+		border-radius: 10px ;
+		-moz-border-radius: 10px ;
+		-webkit-border-radius: 10px ;
+		padding: 20px;
+	}
+
+	video.header-vid {
+		height: 140px;
+		border: 1px solid black;
+		border-radius: 10px ;
+		-moz-border-radius: 10px ;
+		-webkit-border-radius: 10px ;
+	}
+
+	img.header-img {
+		height: 140px;
+		border: 1px solid black;
+		border-radius: 10px ;
+		-moz-border-radius: 10px ;
+		-webkit-border-radius: 10px ;
+	}
+
+	img.rounded {
+		border: 1px solid #eeeeee;
+		border-radius: 10px ;
+		-moz-border-radius: 10px ;
+		-webkit-border-radius: 10px ;
+	}
+
+	a:link,a:visited
+	{
+		color: #1367a7;
+		text-decoration: none;
+	}
+	a:hover {
+		color: #208799;
+	}
+
+	td.dl-link {
+		height: 160px;
+		text-align: center;
+		font-size: 22px;
+	}
+
+	.layered-paper-big { /* modified from: http://css-tricks.com/snippets/css/layered-paper/ */
+		box-shadow:
+		        0px 0px 1px 1px rgba(0,0,0,0.35), /* The top layer shadow */
+		        5px 5px 0 0px #fff, /* The second layer */
+		        5px 5px 1px 1px rgba(0,0,0,0.35), /* The second layer shadow */
+		        10px 10px 0 0px #fff, /* The third layer */
+		        10px 10px 1px 1px rgba(0,0,0,0.35), /* The third layer shadow */
+		        15px 15px 0 0px #fff, /* The fourth layer */
+		        15px 15px 1px 1px rgba(0,0,0,0.35), /* The fourth layer shadow */
+		        20px 20px 0 0px #fff, /* The fifth layer */
+		        20px 20px 1px 1px rgba(0,0,0,0.35), /* The fifth layer shadow */
+		        25px 25px 0 0px #fff, /* The fifth layer */
+		        25px 25px 1px 1px rgba(0,0,0,0.35); /* The fifth layer shadow */
+		margin-left: 10px;
+		margin-right: 45px;
+	}
+
+
+	.layered-paper { /* modified from: http://css-tricks.com/snippets/css/layered-paper/ */
+		box-shadow:
+		        0px 0px 1px 1px rgba(0,0,0,0.35), /* The top layer shadow */
+		        5px 5px 0 0px #fff, /* The second layer */
+		        5px 5px 1px 1px rgba(0,0,0,0.35), /* The second layer shadow */
+		        10px 10px 0 0px #fff, /* The third layer */
+		        10px 10px 1px 1px rgba(0,0,0,0.35); /* The third layer shadow */
+		margin-top: 5px;
+		margin-left: 10px;
+		margin-right: 30px;
+		margin-bottom: 5px;
+	}
+
+	.vert-cent {
+		position: relative;
+	    top: 50%;
+	    transform: translateY(-50%);
+	}
+
+	hr
+	{
+		border: 0;
+		height: 1px;
+		background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+	}
+    table td, table td * {
+        vertical-align: top;
+    }
+</style>
+
+<html>
+  <head>
+	  <title>An Introductory Study about Image Captioning in Portuguese using Deep Learning</title>
+      <meta property="og:image" content="https://phillipi.github.io/pix2pix/images/teaser_for_fb_v4.png"/>
+      <meta property="og:title" content="Image-to-Image Translation with Conditional Adversarial Networks" />
+  </head>
+
+  <body>
+    <br>
+          <center>
+          	<span style="font-size:36px">An Introductory Study about Image Captioning in Portuguese using Deep Learning</span><br><br>
+	  		  <table align=center width=600px>
+	  			  <tr>
+	  	              <td align=center width=100px>
+	  					<center>
+	  						<span style="font-size:18px"><a href="http://web.mit.edu/phillipi">Bruno H. L. dos Anjos</a></span>
+		  		  		</center>
+		  		  	  </td>
+	  	              <td align=center width=100px>
+	  					<center>
+	  						<span style="font-size:18px"><a href="https://www.cs.cmu.edu/~junyanz/">Ravi B.D. Figueiredo</a></span>
+		  		  		</center>
+		  		  	  </td>
+	  	              <td align=center width=100px>
+	  					<center>
+	  						<span style="font-size:18px"><a href="https://cin.ufpe.br/~rbsa/">Richardson Bruno da Silva Andrade</a></span>
+		  		  		</center>
+		  		  	  </td>
+			  </table><br>
+              <span style="font-size:18px">Recife, Pernambuco</span><br>
+              <span style="font-size:18px"></span><br><br>
+
+	  		  <table align=center width=300px>
+	  			  <tr>
+	  	              <td align=center width=50px>
+	  					<center>
+	  						<span style="font-size:24px"><a href='https://arxiv.org/abs/1611.07004'>[Paper]</a>
+		  		  		</center>
+		  		  	  </td>
+
+					<td align=center width=50px>
+							<center>
+								<span style="font-size:24px"><a href='https://arxiv.org/abs/1611.07004'>[Presentation]</a>
+							  </center>
+							</td>
+	  	              <td align=center width=50px>
+	  					<center>
+	  						<span style="font-size:24px"><a href='https://github.com/portuguese-image-captioning'>[GitHub]</a></span>
+		  		  		</center>
+		  		  	  </td>
+			  </table>
+          </center>
+
+<!--   		  <br><br>
+		  <hr> -->
+
+  		  <br>
+  		  <table align=center width=850px>
+  			  <tr>
+  	              <td width=400px>
+  					<center>
+  	                	<a href="./images/results.png"><img class="" src = "./images/results.png" height="360px"></img></href></a><br>
+					</center>
+  	              </td>
+                </tr>
+  	              <td width=400px>
+                      <center>
+  	                	<span style="font-size:14px"><i>Example results on portuguese image captionin problems.</i>
+                      <center>
+  	              </td>
+
+  		  </table>
+
+
+
+
+  		  <table align=center width=850px>
+	  		  <center><h1>Abstract</h1></center>
+	  		  <tr>
+	  		  	<td>
+					Image caption is the field of study that generates sentences describing the content of a given image. Many solutions has been proposed recently, the majority in English. However, Portuguese image captioning works has been lacking, with at the moment of this article, none papers has been published. Our purpose is to create an image caption dataset in Portuguese language using the MSCOCO as base. Also, test some deep neural networks to generate sentences in Portuguese. The results were validated using BLEU metric.
+	  		    </td>
+	  		  </tr>
+			</table>
+				
+  		  <br><br>
+		  <hr>
+
+
+	  <!-- NETWORK ARCHITECTURE, TRY THE MODEL -->
+ 		<center><h1>Try our code</h1></center>
+
+  		  <table align=center width=800px>
+			  <tr><center>
+				<!-- <span style="font-size:28px">Code coming soon!</span></i>			  	 -->
+<!-- 				<div style="width:600px; text-align:left">
+					<span style="font-size:28px">&nbsp;Recommended version: <a href='https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix '>[PyTorch]</a></span><br>
+					<span style="font-size:28px">&nbsp;Original code: <a href='https://github.com/phillipi/pix2pix'>[Torch]</a></span>
+				</div>
+                    <br>
+					 -->
+                    <div style="width:800px; text-align:left">
+                    Parts of our code:<br>
+					<a href="">VGG-16 + LSTM</a>  (implementation by <a href="https://github.com/jcrbsa">Richardson Bruno da Silva Andrade</a>)<br>
+                    <a href=''>EfficientNet + Transformer</a> (implementation by <a href="https://github.com/christopherhesse">Bruno H. L. dos Anjos</a>)<br>
+                    <a href=''>CLIP + GPT2</a> (implementation by <a href="https://github.com/yenchenlin">Ravi B.D. Figueiredo</a>)<br>
+<!--                     <a href='https://github.com/pfnet-research/chainer-pix2pix'>[Chainer]<a/> (implementation by <a href="https://github.com/pfnet-research">pfnet-research</a>)<br>
+                    <a href='https://github.com/tdeboissiere/DeepLearningImplementations/tree/master/pix2pix'>[Keras]</a> (implementation by <a href="https://github.com/tdeboissiere">Thibault de Boissiere</a>)<br>
+								<a href="https://resources.wolframcloud.com/NeuralNetRepository/resources/Pix2pix-Photo-to-Street-Map-Translation">[Wolfram Cloud]</a> (implementation by Wolfram team)	 -->	
+                </div>
+
+			  <br>
+			  </center></tr>
+		  </table>
+
+<!-- <a href="http://www.eecs.berkeley.edu/~rich.zhang/projects/2016_colorization/files/demo_v0/colorization_release_v0.caffemodel">[Model 129MB]</span> -->
+
+      	  <br>
+		  <hr>
+
+			<center><h1>Paper</h1></center>
+			<table align="center" width="700" px="">
+			          <tbody><tr>
+			          <td><a href="#"><img class="layered-paper-big" style="height:175px" src="./images/paper_pdf_thumb.png"></a></td>
+			          <td><br><br><br><span style="font-size:12pt">Bruno H. L. dos Anjos, Ravi B.D. Figueiredo, Richardson Bruno da Silva Andrade</span><br>
+			          <b><span style="font-size:12pt">An Introductory Study about Image Captioning in Portuguese using Deep Learning</span></b><br>
+			          <span style="font-size:12pt">Undefined, 2022 (<a href="https://arxiv.org/abs/1611.07004">Paper</a>)</span>
+			          </td>
+								</tr>
+					</table>
+								<br>
+          <table align="center" width="600px">
+            <tbody>
+              <tr>
+                <td>
+                  <center>
+                    <span style="font-size:22px">
+                      <a href="./resources/bibtex_cvpr_pix2pix.txt" target="_blank">[bibtex]</a>
+                    </span>
+                  </center>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+			
+		  <br><br>
+		</tr>
+		  <center><h1>Approach Overview</h1></center>
+          <hr>
+          	  <table align=center width=1100px>
+          		  <tr>
+                        <td width=400px>
+               					<left>
+                          <center><a href="#"><img width=400px src="./images/overview.png"/></a></center>
+						  <table align=center width=850px>
+							<tr>
+								<td>
+									This work is divided into two parts. First, for the lack of dataset in Portuguese, the COCO dataset is translated using the Google Translation API the is integrated into the . The translation is made sentence by sentence to keep the context of individuals' captions. The COCO dataset is formatted to competitions, i.e., the image test does not have captions, then the validation set is used like the test set, and 10% of the train set is separated for the validation task. In the second part is described the three architectures used to generate image captions in Portuguese, VGG16 + LSTM, EfficientNet + Transformer Encoder-Decoder e CLIP + GPT2, and shows results with BLEU metrics.
+							  </td>
+							</tr>
+						</table>
+							
+						 
+                  </td>
+              </tr>
+          </table>
+          <br>
+
+
+		  <hr>
+		  <center><h1>Architectures </h1></center>
+		  <table align=center width=1100px>
+			<tr>
+				<td width=400px>
+						   <left>
+		
+  
+				  <table align=center width=1100px>
+							  <tr>
+						  <td width=300px>
+							<center>
+								<span style="font-size:22px"><a href='https://www.nvidia.com/en-us/deep-learning-ai/ai-art-gallery/artists/scott-eaton/'>Effficient + Transformer</a></span><br>
+								<a href="https://www.nvidia.com/en-us/deep-learning-ai/ai-art-gallery/artists/scott-eaton/"><img src="./images/effcient_transform.png" width = "500px"></a><br>
+							<div style="width:250px; text-align:left; font-size:14px"><a href="http://www.scott-eaton.com/">Effficient + Transformer</a> In this architecture is used EfficientNet to extract the features from images, and transformers to encode the features and decode the text. The objective of EfficientNet is to increase the scalability of the net based on the input, i.e., the number of layers and filters depends on the size of the image to better extract features of the image..</div></center>
+						  </td>
+  
+						  <td width=300px>
+							<center>
+								<span style="font-size:22px"><a href='https://vimeo.com/260612034'>Clip + GPT-2</a></span><br>
+								<a href="https://vimeo.com/260612034"><img src="./images/clip_gpt2.png" width = "500px"></a><br>
+							<div style="width:250px; text-align:left; font-size:14px"><a href="http://www.memo.tv/">CLIP+GPT2</a> used pix2pix to create the very compelling music video linked above, in which common household items, like a powercord, are moved around in a pantomine of crashing waves and blooming flowers. Then a pix2pix-based model translates the pantomine into renderings of the imagined objects.</div></center>
+						  </td>
+  
+						  <td width=300px>
+							<center>
+								<span style="font-size:22px"><a href='https://nono.ma/suggestive-drawing'>VGG16 + LSTM</a></span><br>
+								<a href="https://nono.ma/suggestive-drawing"><img src="./images/vgg16.png" width = "250px"></a><br>
+							<div style="width:250px; text-align:left; font-size:14px"><a href="https://nono.ma/">VGG16+LSTM</a> This deep architecture is composed by encoder and decoder. Commonly, the encoder utilizes Convolution Neural Network (CNN) to extract features and the decoder uses some variation of Recurrent Neural Networks (RNN) for sequence word generation.</div></center>
+						  </td>
+  
+				</tr>
+										  
+			
+  </table>
+	<br>
+
+<!-- 
+          <hr>
+	 		<center><h1>Expository articles and videos</h1></center>
+     		  <br>
+     		  <table align=center width=1100px>
+     			  <tr>
+     	              <td width=300px>
+     					<center>
+     						<span style="font-size:22px"><a href="https://www.youtube.com/embed/u7kQ5lNfUfg">Two-minute Papers</a></span><br>
+                            <iframe width="560" height="315" src="https://www.youtube.com/embed/u7kQ5lNfUfg" frameborder="0" allowfullscreen></iframe>
+     					    <div style="width:560px; text-align:left; font-size:14px">Karoly Zsolnai-Feher made the above as part of his very cool <a href="https://www.youtube.com/channel/UCbfYPyITQ-7l4upoX8nvctg">"Two-minute papers" series</a>.</div>
+                        </center>
+     	              </td>
+
+     	              <td width=300px>
+     					<center>
+     						<span style="font-size:22px"><a href='https://affinelayer.com/pix2pix/'>Affinelayer blog post</a></span><br>
+     	                	<a href="https://affinelayer.com/pix2pix/"><img src="./images/hesse_blog_post.png" width = "270px"></a><br>
+     					<div style="width:270px; text-align:left; font-size:14px">Great explanation by Christopher Hesse, also documenting his <a href="https://github.com/affinelayer/pix2pix-tensorflow">tensorflow port</a> of our code.</div></center>
+     	              </td>
+
+                   </tr>
+     		  </table>
+		  <br><br> -->
+
+		  <center><h1>Evaluation Results</h1></center>
+          <hr>
+          	  <table align=center width=1100px>
+          		  <tr>
+                        <td width=400px>
+               					<left>
+                          <center><a href="#"><img width=400px src="./images/result_metrics.png"/></a></center>
+						  <table align=center width=850px>
+							<tr>
+								<td>
+									Todo
+							  </td>
+							</tr>
+						</table>
+							
+						 
+                  </td>
+              </tr>
+          </table>
+
+		  <table align=center width=1100px>
+			<tr>
+				<td width=400px>
+						   <left>
+				  <center><a href="#"><img width=400px src="./images/cat_keyboard.jpg"/></a></center>
+				  <table align=center width=850px>
+					<tr>
+						<td>
+							Todo
+					  </td>
+					</tr>
+				</table>
+          <br>
+		  <hr>
+
+
+  		  <a name="bw_legacy"></a>
+  		  <center><h1>Experiments</h1></center>
+          Here we show comprehensive results from each experiment in our paper. Please see the paper for details on these experiments.<br>
+          <br>
+
+          <table align=center width=600px>
+
+        <tr>
+        <td valign="top">
+  		  <b>Effect of Datasets</b><br>
+          <a href="#">MS-Coco Dataset</a><br>
+          <a href="#">Portuguse MS-Coco Dataset</a><br>
+          <br>
+
+  		  <b>Effect of architecture</b><br>
+          <a href="#">VGG-16</a><br>
+		  <a href="#">Autoencoder</a><br>
+		  <a href="#">LSTM</a><br>
+		  <a href="#">Transformers</a><br>
+		  <a href="#">EfficientNet</a><br>
+		  <a href="#">Clip</a><br>
+		  <a href="#">GPT-2</a><br>
+          <br>
+
+      </td>
+      <td valign="top">
+		<b>Metrics</b><br>
+		<a href="#">BLUE-1</a><br>
+		<a href="#">BLUE-2</a><br>
+		<a href="#">BLUE-3</a><br>
+		<a href="#">BLUE-4</a><br>
+		<br>
+  		  <b>Additional results</b><br>
+          <a href="#">Additional Result 1</a><br>
+          <a href="#">Additional Result 2</a><br>
+          <a href="#">Additional Result 3</a><br>
+          <!--<a href="./images/colorization/index.html">Colorization</a><br>-->
+        <br>
+
+      </td>
+      </tr>
+          </table>
+
+
+  	  	<hr>
+
+	  <table align=center width=1100px>
+		  <tr>
+              <td width=400px>
+     					<left>
+      		  <center><h1>Community contributions: <a href="https://twitter.com/search?vertical=default&q=pix2pix&src=typd">#portuguese-image-captioning</a></h1></center>
+              People have used our code for many creative applications, often posted on twitter with the hashtag #portuguese-image-captioning. Check them out <a href="https://twitter.com/search?vertical=default&q=pix2pix&src=typd">here</a>! Below we highlight just a few of the many:<br><br>
+
+      		  <table align=center width=1100px>
+							<tr>
+      	              <td width=300px>
+      					<center>
+      						<span style="font-size:22px"><a href='https://www.nvidia.com/en-us/deep-learning-ai/ai-art-gallery/artists/scott-eaton/'>Libras</a></span><br>
+      	                	<a href="https://www.nvidia.com/en-us/deep-learning-ai/ai-art-gallery/artists/scott-eaton/"><img src="./images/scott_eaton.jpg" width = "250px"></a><br>
+      					<div style="width:250px; text-align:left; font-size:14px"><a href="http://www.scott-eaton.com/">Case 1</a> Todo.</div></center>
+      	              </td>
+
+      	              <td width=300px>
+      					<center>
+      						<span style="font-size:22px"><a href='https://vimeo.com/260612034'>Description Scene</a></span><br>
+      	                	<a href="https://vimeo.com/260612034"><img src="./images/gloomy_sunday.png" width = "250px"></a><br>
+      					<div style="width:250px; text-align:left; font-size:14px"><a href="http://www.memo.tv/">Case 2</a> Todo.</div></center>
+      	              </td>
+
+      	              <td width=300px>
+      					<center>
+      						<span style="font-size:22px"><a href='https://nono.ma/suggestive-drawing'>Description Scene</a></span><br>
+      	                	<a href="https://nono.ma/suggestive-drawing"><img src="./images/suggestive_drawing.png" width = "250px"></a><br>
+      					<div style="width:250px; text-align:left; font-size:14px"><a href="https://nono.ma/">Case3</a> Todo.</div></center>
+      	              </td>
+
+              </tr>
+										
+   <!--    			  <tr>
+      	              <td width=300px>
+												<br>
+      					<center>
+      						<span style="font-size:22px"><a href='https://twitter.com/search?vertical=default&q=edges2cats&src=typd'>#edges2cats</a></span><br>
+      	                	<a href="https://twitter.com/search?vertical=default&q=edges2cats&src=typd"><img src="./images/cats_example.jpg" width = "250px"></a><br>
+      					<div style="width:250px; text-align:left; font-size:14px"><a href="https://twitter.com/christophrhesse?lang=en">Christopher Hesse</a> trained our model on converting edge maps to photos of cats, and included this in his <a href="https://affinelayer.com/pixsrv/">interactive demo</a>. Apparently, this is what the Internet wanted most, and #edges2cats briefly <a href="https://www.youtube.com/watch?v=vbuE5CLRCDY">went viral</a>. The above cats were designed by Vitaly Vidmirov (<a href="https://twitter.com/vvid/status/834976420942204933">@vvid</a>).</div></center>
+      	              </td>
+
+      	              <td width=300px>
+      					<center>
+      						<span style="font-size:22px"><a href='https://www.youtube.com/watch?v=af_9LXhcebY'>Alternative Face</a></span><br>
+      	                	<a href="https://www.youtube.com/watch?v=af_9LXhcebY"><img src="./images/hardy_conway.jpg" width = "250px"></a><br>
+      					<div style="width:250px; text-align:left; font-size:14px"><a href="https://quasimondo.com/">Mario Klingemann</a> used our code to translate the appearance of French singer Francoise Hardy onto Kellyanne Conway's infamous "alternative facts" interview. Interesting articles about it can be read <a href="http://nymag.com/selectall/2017/03/pix2pix-cat-drawing-tool-is-ai-at-its-best.html">here</a> and <a href="http://www.alphr.com/art/1005324/alternative-face-the-machine-that-puts-kellyanne-conway-s-words-into-a-french-singer-s">here</a>.</div></center>
+      	              </td>
+
+      	              <td width=300px>
+      					<center>
+      						<span style="font-size:22px"><a href='https://twitter.com/brannondorsey/status/808461108881268736'>Person-to-Person</a></span><br>
+      	                	<a href="https://twitter.com/brannondorsey/status/808461108881268736"><img src="./images/dorsey_kurzweil.jpg" width = "250px"></a><br>
+      					<div style="width:250px; text-align:left; font-size:14px"><a href="https://brannondorsey.com/">Brannon Dorsey</a> recorded himself mimicking frames from a video of Ray Kurzweil giving a talk. He then used this data to train a Dorsey&rarr;Kurzweil translator, allowing him to become a kind of puppeter in control of Kurzweil's appearance.</div></center>
+      	              </td>
+
+                    </tr>
+
+                    <tr>
+        	              <td width=300px>
+                              <br>
+        					<center>
+        						<span style="font-size:22px"><a href='https://twitter.com/bgondouin/status/818571935529377792'>Interactive Anime</a></span><br>
+        	                	<a href="https://twitter.com/bgondouin/status/818571935529377792"><img src="./images/iPokemon.jpg" width = "250px"></a><br>
+        					<div style="width:250px; text-align:left; font-size:14px"><a href="https://bgon.github.io/">Bertrand Gondouin</a> trained our method to translate sketches&rarr;Pokemon, resulting in an interactive drawing tool.</div></center>
+        	              </td>
+
+        	              <td width=300px>
+                              <br>
+        					<center>
+        						<span style="font-size:22px"><a href='http://www.k4ai.com/imageops/index.html'>Background masking</a></span><br>
+        	                	<a href="http://www.k4ai.com/imageops/index.html"><img src="./images/background_masking.jpg" width = "250px"></a><br>
+        					<div style="width:250px; text-align:left; font-size:14px"><a href="https://twitter.com/kaihuchen?lang=en">Kaihu Chen</a> performed <a href="http://www.k4ai.com/tag/gan/index.html">a number of interesting experiments</a> using our method, including getting it to mask out the background of a portrait as shown above.</div></center>
+        	              </td>
+
+      	              <td width=300px>
+                          <br>
+      					<center>
+      						<span style="font-size:22px"><a href='http://colormind.io/blog/'>Color palette completion</a></span><br>
+      	                	<a href="http://colormind.io/blog/"><img src="./images/color_palettes.jpg" width = "250px"></a><br>
+      					<div style="width:250px; text-align:left; font-size:14px"><a href="http://colormind.io/blog/">Colormind</a> adapted our code to predict a complete 5-color palette given a subset of the palette as input. This application stretches the definition of what counts as "image-to-image translation" in an exciting way: if you can visualize your input/output data as images, then image-to-image methods are applicable! (not that this is necessarily the best choice of representation, just one to think about.)</div></center>
+      	              </td>
+
+                    </tr>
+      		  </table> -->
+              <br>
+        </td>
+    </tr>
+</table>
+
+        <hr>
+
+
+ 		  <a name="related_work"></a>
+ 		  <table align=center width=1100px>
+ 			  <tr>
+ 	              <td width=400px>
+ 					<left>
+  		  <center><h1>Recent Related Work</h1></center>
+
+
+  		  <br><br>
+
+  		  <!-- <br><br> -->
+
+                <br>
+                <br>
+
+			</td>
+		 </tr>
+
+         <tr>
+             <td width=400px>
+
+                 <br><br>
+                 <br><br>
+
+             </td>
+         </tr>
+
+	 </table>
+
+	  <br>
+	  <hr>
+	  <br>
+
+
+  		  <table align=center width=1100px>
+  			  <tr>
+  	              <td>
+  					<left>
+	  		  <center><h1>Acknowledgements</h1></center>
+			</left>
+		</td>
+			 </tr>
+		</table>
+
+		<br><br>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-24665197-6', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+</body>
+</html>
