@@ -1,0 +1,6 @@
+@article{2022portuguseimagecaptioning,
+  title={An Introductory Study about Image Captioning in Portuguese using Deep Learning},
+  author={Andrade, B. S. Richardson, Anjos, H.L. Bruno; Figueiredo, B.D. Ravi },
+  journal={},
+  year={2022}
+}
